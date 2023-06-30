@@ -1,5 +1,5 @@
 import { Button, Offcanvas, Stack } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "../context/NavContext";
 import { FastAPIClient } from "../client";
 import ReactDatePicker from "react-datepicker";
@@ -282,7 +282,7 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
     }
     setGoodData(1);
     // get just the names from the collection object
-    var collectionNameArray = [];
+    const collectionNameArray: string[] = [];
     for (var obj in collection) {
       collectionNameArray.push(collection[obj].value);
     }

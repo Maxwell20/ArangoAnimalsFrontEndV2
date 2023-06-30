@@ -4,7 +4,8 @@ import { Navbar } from "./components/Navbar";
 import { Container } from "react-bootstrap";
 import { NavProvider } from "./context/NavContext";
 import { Home } from "./pages/Home";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
 
 function App() {
   const initial = [

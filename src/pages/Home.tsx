@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 import { DataItem } from "../components/DataItem";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { useState, useEffect } from "react";
 import { getQueryData } from "../context/QueryContext";
 import { makeInitialQuery } from "../hooks/useQuery";

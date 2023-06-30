@@ -1,5 +1,6 @@
 import { Button, Stack, Container, Navbar as NavbarBS } from "react-bootstrap";
 import { useQuery } from "../context/NavContext";
+import React from "react"
 
 export function Navbar() {
   const { openQuery } = useQuery();

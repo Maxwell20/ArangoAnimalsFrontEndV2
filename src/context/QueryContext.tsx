@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode } from "react";
 import { makeInitialQuery as makeInitial } from "../hooks/useQuery";
 import { makeFullQuery as fullQuery } from "../hooks/useQuery";
 
