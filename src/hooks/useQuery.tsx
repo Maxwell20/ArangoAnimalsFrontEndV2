@@ -49,7 +49,7 @@ export function makeInitialQuery() {
   const fetchData = async () => {
     try {
       //const client = new FastAPIClient("https://10.0.0.6");
-      const client = new FastAPIClient("https://192.168.91.175");
+      const client = new FastAPIClient("https://www.localhostdomain.com/rest");
       //const names = await client.getColectionNameData();
       //const collectionNames = names[0].join(",");
       const response = await client.getDocumentsPaged(
@@ -107,7 +107,7 @@ export function makeFullQuery({
   const fetchData = async () => {
     try {
       //const client = new FastAPIClient("https://10.0.0.6");
-      const client = new FastAPIClient("https://192.168.91.175");
+      const client = new FastAPIClient("https://www.localhostdomain.com/rest");
       const response = await client.getDocumentsPaged(
         collections,
         10,
@@ -146,7 +146,7 @@ export function makeQueryByKey({
   }: makeQueryByKeyProps) {
     const fetchData = async () => {
       try {
-        const client = new FastAPIClient("https://10.0.0.6");
+        const client = new FastAPIClient("https://www.localhostdomain.com/rest");
         const response = await client.getDocumentByKey(
           key,
           includeEdges
