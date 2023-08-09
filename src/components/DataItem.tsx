@@ -38,7 +38,7 @@ export function DataItem({
     console.log("select called!!!");
     // Make the API call using makeQueryByKey
     try {
-      const response = await makeQueryByKey({ key: _key, includeEdges: true });
+      // const response = await makeQueryByKey({ key: _key, includeEdges: true });
       // Call the onSelect function to update the selected document
       onSelect(); // This will trigger the handleSelect function in the Home component
       // Handle the response or update the state as needed
