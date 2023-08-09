@@ -4,10 +4,9 @@ import { DataItem } from "../components/DataItem";
 import { useQueryContext } from "../context/QueryContext";
 import { makeInitialQuery } from "../hooks/useQuery";
 
-
 export function Home() {
   const context = useQueryContext();
-  const [selectedDoc, setSelectedDoc] = useState(null);
+  const [selectedDoc, setSelectedDoc] = useState<any>(null); // Explicitly set the type as 'any'
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
@@ -20,9 +19,10 @@ export function Home() {
     fetchData();
   }, [pageNum, context.setQueryData]);
 
-  const handleSelect = (doc: React.SetStateAction<null>) => {
+  const handleSelect = (doc: any) => {
     setSelectedDoc(doc);
   };
+
   console.log("selectedDoc:", selectedDoc);
   return (
     <>
