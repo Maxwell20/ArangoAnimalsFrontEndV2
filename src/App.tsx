@@ -1,5 +1,5 @@
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import { QueryContext, QueryUseProvider } from "./context/QueryContext";
+import { QueryContext, QueryProvider } from "./context/QueryContext";
 import { Navbar } from "./components/Navbar";
 import { Container } from "react-bootstrap";
 import { NavProvider } from "./context/NavContext";
@@ -36,16 +36,15 @@ function App() {
 
   return (
     <>
-    <QueryContext.Provider value={{ queryData, setQueryData, initialRender, setInitialRender }}>
-      <QueryUseProvider>
+      <QueryProvider>
         <NavProvider>
           <Navbar />
         </NavProvider>
         <Container className="mb-4">
           <Home />
         </Container>
-      </QueryUseProvider>
-    </QueryContext.Provider></>
+      </QueryProvider>
+    </>
   );
 }
 

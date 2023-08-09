@@ -45,17 +45,14 @@ export var badData = [
   },
 ];
 
-export function makeInitialQuery() {
+export function makeInitialQuery(_pageNum: number) {
   const fetchData = async () => {
     try {
-      //const client = new FastAPIClient("https://10.0.0.6");
-      const client = new FastAPIClient("https://192.168.91.175");
-      //const names = await client.getColectionNameData();
-      //const collectionNames = names[0].join(",");
+      const client = new FastAPIClient("https://localhost:8080/rest");
       const response = await client.getDocumentsPaged(
         "sightings",
-        7,
-        1,
+        12,
+        _pageNum,
         null,
         null,
         null,
@@ -72,18 +69,19 @@ export function makeInitialQuery() {
         "edge-sightings",
         null,
         null
-      )
-      const dataItems = response;   
-      return dataItems
+      );
+      const dataItems = await response; // Parse the response JSON
+      return dataItems; // Return the parsed data
     } catch (error) {
       console.error("Error fetching initial documents:", error);
-      return JSON.parse(JSON.stringify(badData));
+      return badData; // Return the bad data
     }
   };
-  return fetchData();
+  return fetchData(); // Return the fetchData function
 }
 
-export function makeFullQuery({
+
+export async function makeFullQuery({
   collections,
   pageSize,
   pageNumber,
@@ -103,61 +101,37 @@ export function makeFullQuery({
   edgeCollection,
   excludeEdges,
   collectionFilter,
-}: makeQueryProps) {
-  const fetchData = async () => {
+  }: makeQueryProps) {
     try {
-      //const client = new FastAPIClient("https://10.0.0.6");
-      const client = new FastAPIClient("https://192.168.91.175");
+      const client = new FastAPIClient("https://localhost:8080/rest");
       const response = await client.getDocumentsPaged(
         collections,
-        10,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        edgeCollection,
-        null,
-        null
+        pageSize,
+        pageNumber,
+        // ... Other query parameters ...
       );
-      const dataItems = await response;
-      console.log(collections)
+      const dataItems = await response.json();
       return dataItems;
     } catch (error) {
       console.error("Error fetching paged documents:", error);
-      return JSON.parse(JSON.stringify(badData));
+      throw error; // Throw the error for the component to handle
     }
-  };
-  return fetchData();  
-}
+  }
 
-export function makeQueryByKey({
+export async function makeQueryByKey({
     key,
-    includeEdges
+    includeEdges,
   }: makeQueryByKeyProps) {
-    const fetchData = async () => {
-      try {
-        const client = new FastAPIClient("https://10.0.0.6");
-        const response = await client.getDocumentByKey(
-          key,
-          includeEdges
-        );
-        const dataItems = await response;
-        console.log(dataItems)
-        return dataItems;
-      } catch (error) {
-        console.error("Error fetching paged documents:", error);
-        return JSON.parse(JSON.stringify(badData));
-      }
-    };
-    return fetchData();  
+    try {
+      const client = new FastAPIClient("https://localhost:8080/rest");
+      const response = await client.getDocumentByKey(
+        key,
+        includeEdges
+      );
+      const dataItems = await response.json();
+      return dataItems;
+    } catch (error) {
+      console.error("Error fetching documents by key:", error);
+      throw error; // Throw the error for the component to handle
+    }
   }

@@ -1,54 +1,70 @@
-import React, { createContext, useContext, ReactNode } from "react";
-import { makeInitialQuery as makeInitial } from "../hooks/useQuery";
-import { makeFullQuery as fullQuery } from "../hooks/useQuery";
+import React, { createContext, useContext, ReactNode, useState } from "react";
+import { makeInitialQuery as makeInitial, makeFullQuery } from "../hooks/useQuery";
 
-// TODO: add type for query return
-// TODO: update function calls for the query
-
-
-type QueryContext = {
+type QueryData = {
   queryData: any[] | undefined;
   setQueryData: React.Dispatch<React.SetStateAction<any[] | undefined>>;
   initialRender: number | undefined;
   setInitialRender: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-type QueryUseContext = {
+type QueryFunctions = {
   makeQueryByKey: (key: string) => void;
-  makeInitialQuery: () => void
-  makeFullQuery: () => void;
+  makeInitialQuery: (_pageNum: number) => void;  // Include _pageNum argument
+  makeFullQuery: (_pageNum: number) => void;     // Include _pageNum argument
 };
+type QueryContextType = QueryData & QueryFunctions;
 
-type QueryUseProviderProps = {
+type QueryProviderProps = {
   children: ReactNode;
 };
 
-export const QueryContext = createContext({} as QueryContext);
-export const QueryUseContext = createContext({} as QueryUseContext);
+export const QueryContext = createContext<QueryContextType | undefined>(undefined);
 
-export function makeQuery() {
-  return useContext(QueryUseContext);
+export function useQueryContext(): QueryContextType {
+  const context = useContext(QueryContext);
+  if (!context) {
+    throw new Error("useQueryContext must be used within a QueryProvider");
+  }
+  return context;
 }
+
 
 export function getQueryData() {
   return useContext(QueryContext);
 }
 
-export function QueryUseProvider({ children }: QueryUseProviderProps) {
-  function makeQueryByKey(key: string) {
-    // make function call to makeQuery.tsx
-  }
-  function makeFullQuery() {
-    fullQuery({ collections: "sightings", pageSize: 3, pageNumber: 1, edgeCollection: "edge-sightings" })
-    // make function call to makeQuery.tsx
-  }
-  function makeInitialQuery() {
-    makeInitial()
-    // make function call to makeQuery.tsx
-  }
-  return (
-    <QueryUseContext.Provider value={{ makeQueryByKey, makeFullQuery, makeInitialQuery }}>
-      {children}
-    </QueryUseContext.Provider>
-  );
+export function QueryProvider({ children }: QueryProviderProps) {
+  const [queryData, setQueryData] = useState<any[] | undefined>();
+  const [initialRender, setInitialRender] = useState<number | undefined>();
+
+  const makeQueryByKey = (key: string) => {
+    // Implement makeQueryByKey logic
+  };
+
+  const performInitialQuery = async (_pageNum: number) => {
+    const data = await makeInitial(_pageNum);  // Pass _pageNum to makeInitial
+    setQueryData(data);
+  };
+
+  const performFullQuery = async (_pageNum: number) => {
+    const data = await makeFullQuery(_pageNum);  // Pass _pageNum to makeFullQuery
+    setQueryData(data);
+  };
+
+  const queryFunctions: QueryFunctions = {
+    makeQueryByKey,
+    makeInitialQuery: performInitialQuery,
+    makeFullQuery: performFullQuery,
+  };
+
+  const contextValue: QueryContextType = {
+    queryData,
+    setQueryData,
+    initialRender,
+    setInitialRender,
+    ...queryFunctions,
+  };
+
+  return <QueryContext.Provider value={contextValue}>{children}</QueryContext.Provider>;
 }

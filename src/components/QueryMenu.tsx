@@ -78,7 +78,7 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
     const fetchData = async () => {
       try {
         //const client = new FastAPIClient("https://10.0.0.6");
-        const client = new FastAPIClient("https://192.168.91.175");
+        const client = new FastAPIClient("https:localhost:8080/rest");
         const names = await client.getColectionNameData();
         //const collectionNames = names[0].join(",");
         //const edgeCollectionNames = names[1].join(",");

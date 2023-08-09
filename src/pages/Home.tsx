@@ -2,45 +2,30 @@ import { Row, Col } from "react-bootstrap";
 import { DataItem } from "../components/DataItem";
 import React, { Fragment } from "react";
 import { useState, useEffect } from "react";
-import { getQueryData } from "../context/QueryContext";
+import { useQueryContext } from "../context/QueryContext";
 import { makeInitialQuery } from "../hooks/useQuery";
 
 export function Home() {
-  const { queryData, setQueryData, initialRender, setInitialRender } = getQueryData();
+  console.log("page refreshed!!!");
+  const context = useQueryContext();  // Use useQueryContext hook
+
   const [counter, setCounter] = useState<number>(0);
+  const [pageNum, setPageNum] = useState(1);
+
   useEffect(() => {
     const fetchData = async () => {
-      if (initialRender === 1) {
-        setInitialRender(2);
-        console.log('initial ' + initialRender)
-        const data = await makeInitialQuery()
-        setQueryData(data);       
-      }
+      const data = await makeInitialQuery(pageNum);
+      context.setQueryData(data); // Set the fetched data to the state
     };
+
     fetchData();
-  }, []);
-
-//   useEffect(() => {
-//     setQueryData(queryData)
-//   }, [queryData])
-
-  if (queryData === undefined) {
-    return (
-      <>
-        <h1>Bad Data</h1>
-      </>
-    );
-  }  
-
-  useEffect(() => {
-    setCounter(queryData.length);
-  }, [queryData]); 
+  }, [pageNum, context.setQueryData]);
 
   return (
     <>
       <h1>Selected Doc</h1>
       <Row md={2} xs={1} lg={3} className="g-3 mh-100">
-        {queryData.map((item: any) => (
+        {context.queryData?.map((item: any) => (
           <Col key={item.doc._key}>
             <DataItem {...item.doc} key={item.doc._key} />
           </Col>
@@ -60,7 +45,7 @@ export function Home() {
       )}
       {counter < 2 && (
         <Row md={2} xs={1} lg={3} className="g-3">
-          {queryData.map((item: any) => (
+          {context.queryData?.map((item: any) => (
             <Fragment key={item.doc._key}>
               {item.connectedDocs.map(
                 (data: any) =>
@@ -74,6 +59,15 @@ export function Home() {
           ))}
         </Row>
       )}
+    <nav aria-label="Page navigation example">
+      <ul className="pagination">
+        <li className="page-item"><a onClick={() => setPageNum(pageNum - 1)} className="page-link" href="javascript:void(0);">Previous</a></li>
+        <li className="page-item"><a onClick={() => setPageNum(1)} className="page-link" href="javascript:void(0);">1</a></li>
+        <li className="page-item"><a onClick={() => setPageNum(2)} className="page-link" href="javascript:void(0);">2</a></li>
+        <li className="page-item"><a onClick={() => setPageNum(3)} className="page-link" href="javascript:void(0);">3</a></li>
+        <li className="page-item"><a onClick={() => setPageNum(pageNum + 1)} className="page-link" href="javascript:void(0);">Next</a></li>
+      </ul>
+    </nav>
     </>
   );
 }
