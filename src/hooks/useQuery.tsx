@@ -110,7 +110,7 @@ export async function makeFullQuery({
         pageNumber,
         // ... Other query parameters ...
       );
-      const dataItems = await response.json();
+      const dataItems = await response;
       return dataItems;
     } catch (error) {
       console.error("Error fetching paged documents:", error);
@@ -128,7 +128,7 @@ export async function makeQueryByKey({
         key,
         includeEdges
       );
-      const dataItems = await response.json();
+      const dataItems = await response;
       return dataItems;
     } catch (error) {
       console.error("Error fetching documents by key:", error);
