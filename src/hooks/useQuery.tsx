@@ -122,6 +122,7 @@ export async function makeQueryByKey({
     key,
     includeEdges,
   }: makeQueryByKeyProps) {
+    console.log("makeQueryByKey called!!!")
     try {
       const client = new FastAPIClient("https://localhost:8080/rest");
       const response = await client.getDocumentByKey(

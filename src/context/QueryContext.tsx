@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from "react";
+import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { makeInitialQuery as makeInitial, makeFullQuery } from "../hooks/useQuery";
 
 type QueryData = {
@@ -40,6 +40,7 @@ export function QueryProvider({ children }: QueryProviderProps) {
 
   const makeQueryByKey = (key: string) => {
     // Implement makeQueryByKey logic
+    console.log("badbadbad")
   };
 
   const performInitialQuery = async (_pageNum: number) => {

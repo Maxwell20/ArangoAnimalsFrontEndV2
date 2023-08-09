@@ -1,9 +1,9 @@
 import { Card } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { formatTime } from "../utilities/formatTime";
-import { makeQueryByKey } from "../hooks/useQuery";
+import { makeQueryByKey } from "../hooks/useQuery"; // Import the makeQueryByKey function
 import { getQueryData } from "../context/QueryContext";
-import React from "react"
+import React from "react";
 
 type dataItemProps = {
   _key: string;
@@ -17,6 +17,7 @@ type dataItemProps = {
   timestamp: string;
   latitude: number;
   species?: string;
+  onSelect: () => void; // Define onSelect prop type
 };
 
 export function DataItem({
@@ -31,13 +32,21 @@ export function DataItem({
   timestamp,
   latitude,
   species,
+  onSelect, // Receive the onSelect function from props
 }: dataItemProps) {
-  //const { makeQueryByKey } = makeQuery();
-  //const { queryData, setQueryData } = getQueryData();
+  const selectItem = async () => {
+    console.log("select called!!!");
+    // Make the API call using makeQueryByKey
+    try {
+      const response = await makeQueryByKey({ key: _key, includeEdges: true });
+      // Call the onSelect function to update the selected document
+      onSelect(); // This will trigger the handleSelect function in the Home component
+      // Handle the response or update the state as needed
+    } catch (error) {
+      // Handle the error
+    }
+  };
 
-  function selectItem(){
-    //put API call in here
-  }
 
   return (
     <Card className="h-100">
@@ -49,8 +58,8 @@ export function DataItem({
           </span>
         </Card.Title>
         <div className="d-flex justify-content-between align-items-baseline mb-4-auto">
-          <span>Collection:</span>
-          <span>{_id.split("/")[0]}</span>
+        <span>Collection:</span>
+        <span>{_id ? _id.split("/")[0] : "N/A"}</span>
         </div>
         <div className="d-flex justify-content-between align-items-baseline mb-4-auto">
           <span>Rev:</span>
@@ -58,9 +67,11 @@ export function DataItem({
         </div>
         <div className="d-flex justify-content-between align-items-baseline mb-4-auto">
           <span>Lat/Long:</span>
+          {latitude !== undefined && longitude !== undefined && (
           <span>
             {latitude.toFixed(6)}/{longitude.toFixed(6)}
           </span>
+)}
         </div>
         <div className="d-flex justify-content-between align-items-baseline mb-4-auto">
           <span>Country:</span>
@@ -82,7 +93,7 @@ export function DataItem({
           <span>DB Key:</span>
           <span>{_key}</span>
         </div>
-        <Button className="w-100" onClick={() => makeQueryByKey({key: _key, includeEdges: true})}>
+  <Button className="w-100" onClick={selectItem}>
           Select
         </Button>
       </Card.Body>
