@@ -8,6 +8,27 @@ export function Home() {
   const context = useQueryContext();
   const [selectedDoc, setSelectedDoc] = useState<any>(null); // Explicitly set the type as 'any'
   const [pageNum, setPageNum] = useState(1);
+  const totalPages = 10; // Replace with the actual total number of pages
+  const maxPageNumbers = 3; // Number of page numbers to display at a time
+  // Calculate the range of page numbers to display
+  const startPage = Math.max(1, pageNum - Math.floor(maxPageNumbers / 2));
+  const endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
+
+  // Generate the page number links within the calculated range
+  const pageLinks = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageLinks.push(
+      <li key={i} className="page-item">
+        <a
+          onClick={() => setPageNum(i)}
+          className="page-link"
+          href="javascript:void(0);"
+        >
+          {i}
+        </a>
+      </li>
+    );
+}
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,55 +99,28 @@ export function Home() {
               ))}
           </Row>
           <nav aria-label="Page navigation example">
-            {/* Page navigation */}
-            <ul className="pagination">
-              <li className="page-item">
-                <a
-                  onClick={() => setPageNum(pageNum - 1)}
-                  className="page-link"
-                  href="javascript:void(0);"
-                >
-                  Previous
-                </a>
-              </li>
-              <li className="page-item">
-                <a
-                  onClick={() => setPageNum(1)}
-                  className="page-link"
-                  href="javascript:void(0);"
-                >
-                  1
-                </a>
-              </li>
-              <li className="page-item">
-                <a
-                  onClick={() => setPageNum(2)}
-                  className="page-link"
-                  href="javascript:void(0);"
-                >
-                  2
-                </a>
-              </li>
-              <li className="page-item">
-                <a
-                  onClick={() => setPageNum(3)}
-                  className="page-link"
-                  href="javascript:void(0);"
-                >
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a
-                  onClick={() => setPageNum(pageNum + 1)}
-                  className="page-link"
-                  href="javascript:void(0);"
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <ul className="pagination">
+            <li className="page-item">
+              <a
+                onClick={() => setPageNum(pageNum - 1)}
+                className="page-link"
+                href="javascript:void(0);"
+              >
+                Previous
+              </a>
+            </li>
+            {pageLinks}
+            <li className="page-item">
+              <a
+                onClick={() => setPageNum(pageNum + 1)}
+                className="page-link"
+                href="javascript:void(0);"
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
         </>
       )}
     </>
