@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { DataItem } from "../components/DataItem";
 import { useQueryContext } from "../context/QueryContext";
 import { makeInitialQuery, makeQueryByKey } from "../hooks/useQuery";
+const MAX_PAGES_DISPLAY = 3; // Adjust the number of pages to display
 
 export function Home() {
   const context = useQueryContext();
@@ -99,28 +100,48 @@ export function Home() {
               ))}
           </Row>
           <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item">
-              <a
-                onClick={() => setPageNum(pageNum - 1)}
-                className="page-link"
-                href="javascript:void(0);"
-              >
-                Previous
-              </a>
-            </li>
-            {pageLinks}
-            <li className="page-item">
-              <a
-                onClick={() => setPageNum(pageNum + 1)}
-                className="page-link"
-                href="javascript:void(0);"
-              >
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
+  <ul className="pagination">
+    <li className="page-item">
+      <a
+        onClick={() => setPageNum(pageNum - 1)}
+        className="page-link"
+        href="javascript:void(0);"
+      >
+        Previous
+      </a>
+    </li>
+    {context.queryData && (
+      <>
+        {Array.from(
+          { length: Math.min(maxPageNumbers, MAX_PAGES_DISPLAY) },
+          (_, i) => pageNum - (MAX_PAGES_DISPLAY - 1) / 2 + i
+        ).map((number) => (
+          <li
+            key={number}
+            className={`page-item ${number === pageNum ? "active" : ""}`}
+          >
+            <a
+              onClick={() => setPageNum(number)}
+              className="page-link"
+              href="javascript:void(0);"
+            >
+              {number}
+            </a>
+          </li>
+        ))}
+      </>
+    )}
+    <li className="page-item">
+      <a
+        onClick={() => setPageNum(pageNum + 1)}
+        className="page-link"
+        href="javascript:void(0);"
+      >
+        Next
+      </a>
+    </li>
+  </ul>
+</nav>
         </>
       )}
     </>
