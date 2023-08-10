@@ -108,7 +108,22 @@ export async function makeFullQuery({
         collections,
         pageSize,
         pageNumber,
-        // ... Other query parameters ...
+        startTime,
+        endTime,
+        longStart,
+        longEnd,
+        latStart,
+        latEnd,
+        country,
+        type,
+        attribute1Start,
+        attribute1End,
+        attribute2Start,
+        attribute2End,
+        includeEdges,
+        edgeCollection,
+        excludeEdges,
+        collectionFilter,
       );
       const dataItems = await response;
       return dataItems;

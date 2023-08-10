@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { DataItem } from "../components/DataItem";
 import { useQueryContext } from "../context/QueryContext";
-import { makeInitialQuery } from "../hooks/useQuery";
+import { makeInitialQuery, makeQueryByKey } from "../hooks/useQuery";
 
 export function Home() {
   const context = useQueryContext();
@@ -19,10 +19,22 @@ export function Home() {
     fetchData();
   }, [pageNum, context.setQueryData]);
 
-  const handleSelect = (doc: any) => {
-    setSelectedDoc(doc);
-  };
+  const handleSelect = async (doc: any) => {
+    console.log("Selected:", doc);
+    try {
+      if(doc.doc){
+        const response = await makeQueryByKey({ key: doc.doc._key, includeEdges: true });
+        setSelectedDoc(response[0]);
+      }
+      else{
+        const response = await makeQueryByKey({ key: doc._key, includeEdges: true });
+        setSelectedDoc(response[0]);
+      }
 
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   console.log("selectedDoc:", selectedDoc);
 
   return (
@@ -37,9 +49,12 @@ export function Home() {
               <>
                 <h1>Connected Docs</h1>
                 <Row md={2} xs={1} lg={3} className="g-3">
-                  {selectedDoc.connectedDocs.map((data: any) => (
+                  {selectedDoc.connectedDocs[0].map((data: any) => (
                     <Col key={data._key}>
-                      <DataItem {...data} />
+                      <DataItem {...data} 
+                       key={data._key}
+                       onSelect={() => handleSelect(data)} // Pass the entire doc as selected
+                       />
                     </Col>
                   ))}
                 </Row>
