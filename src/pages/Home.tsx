@@ -9,7 +9,7 @@ export function Home() {
   const context = useQueryContext();
   const [selectedDoc, setSelectedDoc] = useState<any>(null); // Explicitly set the type as 'any'
   const [pageNum, setPageNum] = useState(1);
-  const totalPages = 10; // Replace with the actual total number of pages
+  const totalPages = 10; // Replace with the actual total number of pages****get from api
   const maxPageNumbers = 3; // Number of page numbers to display at a time
   // Calculate the range of page numbers to display
   const startPage = Math.max(1, pageNum - Math.floor(maxPageNumbers / 2));
@@ -61,7 +61,8 @@ export function Home() {
 
   return (
     <>
-      <h1>Selected Doc</h1>
+      {/* Conditionally render the title "Selected Doc" */}
+      {selectedDoc && <h1>Selected Doc</h1>}
       {selectedDoc ? (
         // Display the selected document and its connected docs
         <Row>
