@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap";
 import { NavProvider } from "./context/NavContext";
 import { Home } from "./pages/Home";
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom"; // Import BrowserRouter
 
 
 function App() {
@@ -33,9 +34,8 @@ function App() {
   // }, [queryData]);
 
   
-
   return (
-    <>
+    <Router> {/* Wrap the entire app with the Router */}
       <QueryProvider>
         <NavProvider>
           <Navbar />
@@ -44,8 +44,7 @@ function App() {
           <Home />
         </Container>
       </QueryProvider>
-    </>
+    </Router>
   );
 }
-
 export default App;

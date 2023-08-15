@@ -1,24 +1,32 @@
 import { Button, Stack, Container, Navbar as NavbarBS } from "react-bootstrap";
 import { useQuery } from "../context/NavContext";
-import React from "react"
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 export function Navbar() {
   const { openQuery } = useQuery();
   const history = ["history1", "history2", "history3"];
+  
+  const handleHomeClick = () => {
+    window.location.reload(); // Reload the current page
+  };
+  
   return (
-   
-      <NavbarBS sticky="top" className="bg-white shadow-lg mb-3">
-        <Container>
-          <Stack
-            direction="horizontal"
-            gap={4}
-            className="d-flex align-items-center"
-          >
-            {/* {history.map((item) => (
-              <Button>{item}</Button>
-            ))} */}
-          </Stack>
-
+    <NavbarBS sticky="top" className="bg-white shadow-lg mb-3">
+      <Container>
+        <Stack
+          direction="horizontal"
+          gap={4}
+          className="d-flex align-items-center"
+        >
+          <button className="btn btn-primary" onClick={handleHomeClick}>
+            Home
+          </button>
+          {/* {history.map((item) => (
+            <Button>{item}</Button>
+          ))} */}
+        </Stack>
+        <Stack direction="horizontal" gap={4} className="ml-auto">
           <Button
             onClick={openQuery}
             style={{ width: "3rem", height: "3rem", position: "relative" }}
@@ -44,7 +52,8 @@ export function Navbar() {
               </g>
             </svg>
           </Button>
-        </Container>
-      </NavbarBS>
+        </Stack>
+      </Container>
+    </NavbarBS>
   );
 }
