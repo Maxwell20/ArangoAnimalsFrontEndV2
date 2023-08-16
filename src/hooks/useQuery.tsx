@@ -49,8 +49,7 @@ export function makeInitialQuery(_pageNum: number) {
   const fetchData = async () => {
     try {
       const client = new FastAPIClient("https://localhost:8080/rest");
-      const response = await client.getDocumentsPaged(
-        "sightings",
+      const response = await client.getSearchAllDocumentsPaged(
         12,
         _pageNum,
         null,
@@ -64,9 +63,6 @@ export function makeInitialQuery(_pageNum: number) {
         null,
         null,
         null,
-        null,
-        true,
-        "edge-sightings",
         null,
         null
       );

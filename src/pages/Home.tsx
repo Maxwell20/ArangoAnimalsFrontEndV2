@@ -101,51 +101,51 @@ export function Home() {
               ))}
           </Row>
           <nav aria-label="Page navigation example">
-  <ul className="pagination">
-    <li className={`page-item ${pageNum === 1 ? 'disabled' : ''}`}>
-      <a
-        onClick={() => setPageNum(pageNum - 1)}
-        className="page-link"
-        href="javascript:void(0);"
-      >
-        Previous
-      </a>
-    </li>
-    {context.queryData && (
-      <>
-        {Array.from(
-          { length: Math.min(maxPageNumbers, MAX_PAGES_DISPLAY) },
-          (_, i) => pageNum - Math.floor(maxPageNumbers / 2) + i
-        ).map((number) => (
-          // Check if the number is greater than 0 and less than or equal to totalPages
-          number > 0 && number <= totalPages && (
-            <li
-              key={number}
-              className={`page-item ${number === pageNum ? "active" : ""}`}
-            >
-              <a
-                onClick={() => setPageNum(number)}
-                className="page-link"
-                href="javascript:void(0);"
-              >
-                {number}
-              </a>
-            </li>
-          )
-        ))}
-      </>
-    )}
-    <li className={`page-item ${pageNum === totalPages ? 'disabled' : ''}`}>
-      <a
-        onClick={() => setPageNum(pageNum + 1)}
-        className="page-link"
-        href="javascript:void(0);"
-      >
-        Next
-      </a>
-    </li>
-  </ul>
-</nav>
+            <ul className="pagination">
+              <li className={`page-item ${pageNum === 1 ? 'disabled' : ''}`}>
+                <a
+                  onClick={() => setPageNum(pageNum - 1)}
+                  className="page-link"
+                  href="javascript:void(0);"
+                >
+                  Previous
+                </a>
+              </li>
+              {context.queryData && (
+                <>
+                  {Array.from(
+                    { length: Math.min(maxPageNumbers, MAX_PAGES_DISPLAY) },
+                    (_, i) => pageNum - Math.floor(maxPageNumbers / 2) + i
+                  ).map((number) => (
+                    // Check if the number is greater than 0 and less than or equal to totalPages
+                    number > 0 && number <= totalPages && (
+                      <li
+                        key={number}
+                        className={`page-item ${number === pageNum ? "active" : ""}`}
+                      >
+                        <a
+                          onClick={() => setPageNum(number)}
+                          className="page-link"
+                          href="javascript:void(0);"
+                        >
+                          {number}
+                        </a>
+                      </li>
+                    )
+                  ))}
+                </>
+              )}
+              <li className={`page-item ${pageNum === totalPages ? 'disabled' : ''}`}>
+                <a
+                  onClick={() => setPageNum(pageNum + 1)}
+                  className="page-link"
+                  href="javascript:void(0);"
+                >
+                  Next
+                </a>
+              </li>
+            </ul>
+          </nav>
         </>
       )}
     </>
