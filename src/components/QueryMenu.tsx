@@ -9,12 +9,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { makeFullQuery as makeFull } from "../hooks/useQuery";
-import { getQueryData } from "../context/QueryContext";
-
-type QueryMenuProps = {
+// import { makeFullQuery as makeFull } from "../hooks/useQuery";
+// import { getQueryData } from "../context/QueryContext";
+import { useQueryContext } from "../context/QueryContext";
+ 
+interface QueryMenuProps {
   isOpen: boolean;
-};
+  pageNumber: number; // Add the pageNumber prop
+  onDataForQueryChange: (newDataForQuery: makeQueryProps) => void;
+}
+
 
 interface collectionNames {
   value: string;
@@ -49,9 +53,9 @@ type makeQueryProps = {
   excludeEdges?: boolean;
   collectionFilter?: string;
 };
-export function QueryMenu({ isOpen }: QueryMenuProps) {
+export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMenuProps) {
   const [dataForQuery, setDataForQuery] = useState<makeQueryProps>(badData);
-  const { queryData, setQueryData, initialRender } = getQueryData();
+  const { queryData, setQueryData, initialRender } = useQueryContext();
   const [goodData, setGoodData] = useState(2);
   const defaultCollection = [{ value: "all", label: "all" }];
   const { closeQuery } = useQuery();
@@ -71,8 +75,16 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
   const [att1End, setAtt1End] = useState("");
   const [att2Start, setAtt2Start] = useState("");
   const [att2End, setAtt2End] = useState("");
-  
+  const context = useQueryContext();
+
   const [collections] = useState<collectionNames[]>([]);
+
+
+  // const handleQuerySubmit = (queryParameters: makeQueryProps) => {
+  //   context.setQueryParameters(queryParameters);
+  //   // Other logic to trigger the query
+  // }
+
   // get collection list from API
   useEffect(() => {
     const fetchData = async () => {
@@ -105,17 +117,20 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
         setGoodData(2);
         console.log("making query")
         //console.log(await makeFull(dataForQuery))
-        setQueryData(await makeFull(dataForQuery));
-        console.log(queryData)
+        const data = await context.performFullQuery(dataForQuery); // Using makeFullQuery from context        console.log(queryData)
+        setQueryData(data);
         alert('pause')
       }
     };
     fetchData();    
   }, [goodData]);
 
-  // useEffect(() => {
-  //   setGoodData(goodData);
-  // }, [goodData]);
+  useEffect(() => {
+    setDataForQuery((prevData) => ({
+      ...prevData,
+      pageNumber: pageNumber, // Update the pageNumber property
+    }));
+  },[pageNumber]);
   
 
   // handling functions for modifying input variables
@@ -132,7 +147,10 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
   }
 
   // all error handling done here - sanitization and validation
-  function handleSubmit() {
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
     if (parseFloat(latStart) != 0) {
       if (!parseFloat(latStart)) {
         if (latStart != "") {
@@ -306,8 +324,8 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
     if (!excludeDateTime) {
       const newData = {
         collections: collectionNameList,
-        pageSize: 10,
-        pageNumber: 1,
+        pageSize: 12,
+        pageNumber: pageNumber,
         type: speciesLocal,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
@@ -322,13 +340,19 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
         attribute2End: parseFloat(att2End),
         edgeCollection: "edge-sightings",
       };
+      context.setDataForQuery(newData)
+      context.setInitialRender(1);
+
+      console.log(newData);
+
       setDataForQuery(newData)
+      // onDataForQueryChange(newData);
       console.log(newData)
     } else {
       const newData = {
         collections: collectionNameList,
-        pageSize: 8,
-        pageNumber: 1,
+        pageSize: 12,
+        pageNumber: pageNumber,
         type: speciesLocal,
         longStart: parseFloat(longStart),
         longEnd: parseFloat(longEnd),
@@ -341,9 +365,15 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
         attribute2End: parseFloat(att2End),
         edgeCollection: "edge-sightings",
       } 
+      context.setDataForQuery(newData)
+      context.setInitialRender(1);
+      console.log(newData);
+      
       setDataForQuery(newData);
+      // onDataForQueryChange(newData);
       console.log(newData)
     } 
+
 
     alert(
       "The chosen collection was : " +
@@ -413,7 +443,7 @@ export function QueryMenu({ isOpen }: QueryMenuProps) {
         <div style={{ fontSize: "1rem" }}>
           If "all" is selected, any other collection will be ignored on submit
         </div>
-        <form onSubmit={() => handleSubmit()}>
+        <form onSubmit={handleSubmit}>
           <Stack gap={3}>
             <Stack
               direction="horizontal"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { DataItem } from "../components/DataItem";
 import { useQueryContext } from "../context/QueryContext";
-import { makeInitialQuery, makeQueryByKey } from "../hooks/useQuery";
+import { makeInitialQuery, makeQueryByKey, makeFullQuery } from "../hooks/useQuery";
 const MAX_PAGES_DISPLAY = 3; // Adjust the number of pages to display
 
 export function Home() {
@@ -29,17 +29,39 @@ export function Home() {
         </a>
       </li>
     );
-}
+  }
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await makeInitialQuery(pageNum);
+  //     context.setQueryData(data);
+  //     setSelectedDoc(null);
+  //   };
+  const fetchData = async () => {
+    try {
+      if (context.queryParameters !== undefined) {
+        if (context.initialRender === 0) {
+          await context.performInitialQuery(pageNum);
+          // context.setQueryData(data);
+          setSelectedDoc(null);
+          // context.setInitialRender(1);
+        } else {
+          await context.performFullQuery(pageNum);
+          // context.setQueryData(data);
+          setSelectedDoc(null);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // fetchData();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await makeInitialQuery(pageNum);
-      context.setQueryData(data);
-      setSelectedDoc(null);
-    };
-
     fetchData();
-  }, [pageNum, context.setQueryData]);
+  }, [pageNum, context.dataForQuery, context.initialRender]);
+
 
   const handleSelect = async (doc: any) => {
     console.log("Selected:", doc);

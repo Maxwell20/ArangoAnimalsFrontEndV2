@@ -1,6 +1,6 @@
 import { FastAPIClient } from "../client";
 
-type makeQueryProps = {
+export type makeQueryProps = {
   collections: string;
   pageSize: number;
   pageNumber: number;
