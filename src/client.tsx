@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { Form } from 'react-bootstrap';
 
 export class FastAPIClient {
   private baseURL: string;
@@ -24,16 +25,16 @@ export class FastAPIClient {
     pageNumber: number,
     startTime: string | null = "",
     endTime: string | null = "",
-    longStart: number | null = 0,
-    longEnd: number | null = 0,
-    latStart: number | null = 0,
-    latEnd: number | null = 0,
-    country: string | null = "",
-    type: string | null = "",
-    attribute1Start: number | null = 0,
-    attribute1End: number | null = 0,
-    attribute2Start: number | null = 0,
-    attribute2End: number | null = 0,
+    longStart: any | null = null,
+    longEnd: any | null = null,
+    latStart: any | null = null,
+    latEnd: any | null = null,
+    countries: string | null = "",
+    types: string | null = "",
+    attribute1Start: any | null = null,
+    attribute1End: any | null = null,
+    attribute2Start: any | null = null,
+    attribute2End: any | null = null,
     includeEdges: boolean | null = false,
     edgeCollections: string | null = "",
     excludeEdges: boolean | null = false,
@@ -51,8 +52,8 @@ export class FastAPIClient {
           longEnd,
           latStart,
           latEnd,
-          country,
-          type,
+          countries,
+          types,
           attribute1Start,
           attribute1End,
           attribute2Start,
@@ -66,6 +67,32 @@ export class FastAPIClient {
           Accept: 'application/json', // Specify JSON response
         },
       });
+      console.log( await axios.get(`${this.baseURL}/get_documents_paged`, {
+        params: {
+          collections,
+          pageSize,
+          pageNumber,
+          startTime,
+          endTime,
+          longStart,
+          longEnd,
+          latStart,
+          latEnd,
+          countries,
+          types,
+          attribute1Start,
+          attribute1End,
+          attribute2Start,
+          attribute2End,
+          includeEdges,
+          edgeCollections,
+          excludeEdges,
+          collectionFilter
+        },
+        headers: {
+          Accept: 'application/json', // Specify JSON response
+        },
+      }))
       return response.data;
     } catch (error) {
       console.error('Error fetching paged documents:', error);

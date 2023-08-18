@@ -32,7 +32,7 @@ function App() {
   // useEffect(() => {
   //   setQueryData(queryData);
   // }, [queryData]);
-
+  
   
   return (
     <Router> {/* Wrap the entire app with the Router */}
