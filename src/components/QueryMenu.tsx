@@ -318,9 +318,11 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
       collectionNameList = collectionNameArray.join(",");
     }
         
+    const convertNaNToEmptyString = (value) => (isNaN(value) ? null : value);
     
-    const formattedStartTime = startDate.toLocaleDateString() + "T" + startTime;
-    const formattedEndTime = endDate.toLocaleDateString() + "T" + endTime;
+
+    const formattedStartTime = startDate.toISOString() + "T" + startTime;
+    const formattedEndTime = endDate.toISOString() + "T" + endTime;
     if (!excludeDateTime) {
       const newData = {
         collections: collectionNameList,
@@ -329,15 +331,15 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
         type: speciesLocal,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-        longStart: parseFloat(longStart),
-        longEnd: parseFloat(longEnd),
-        latStart: parseFloat(latStart),
-        latEnd: parseFloat(latEnd),
+        longStart: convertNaNToEmptyString(parseFloat(longStart)),
+        longEnd: convertNaNToEmptyString(parseFloat(longEnd)),
+        latStart: convertNaNToEmptyString(parseFloat(latStart)),
+        latEnd: convertNaNToEmptyString(parseFloat(latEnd)),
         country: country,
-        attribute1Start: parseFloat(att1Start),
-        attribute1End: parseFloat(att1End),
-        attribute2Start: parseFloat(att2Start),
-        attribute2End: parseFloat(att2End),
+        attribute1Start: convertNaNToEmptyString(parseFloat(att1Start)),
+        attribute1End: convertNaNToEmptyString(parseFloat(att1End)),
+        attribute2Start: convertNaNToEmptyString(parseFloat(att2Start)),
+        attribute2End: convertNaNToEmptyString(parseFloat(att2End)),
         edgeCollection: "edge-sightings",
       };
       context.setDataForQuery(newData)
@@ -354,15 +356,15 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
         pageSize: 12,
         pageNumber: pageNumber,
         type: speciesLocal,
-        longStart: parseFloat(longStart),
-        longEnd: parseFloat(longEnd),
-        latStart: parseFloat(latStart),
-        latEnd: parseFloat(latEnd),
+        longStart: convertNaNToEmptyString(parseFloat(longStart)),
+        longEnd: convertNaNToEmptyString(parseFloat(longEnd)),
+        latStart: convertNaNToEmptyString(parseFloat(latStart)),
+        latEnd: convertNaNToEmptyString(parseFloat(latEnd)),
         country: country,
-        attribute1Start: parseFloat(att1Start),
-        attribute1End: parseFloat(att1End),
-        attribute2Start: parseFloat(att2Start),
-        attribute2End: parseFloat(att2End),
+        attribute1Start: convertNaNToEmptyString(parseFloat(att1Start)),
+        attribute1End: convertNaNToEmptyString(parseFloat(att1End)),
+        attribute2Start: convertNaNToEmptyString(parseFloat(att2Start)),
+        attribute2End: convertNaNToEmptyString(parseFloat(att2End)),
         edgeCollection: "edge-sightings",
       } 
       context.setDataForQuery(newData)

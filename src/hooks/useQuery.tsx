@@ -122,6 +122,7 @@ export async function makeFullQuery({
         collectionFilter,
       );
       const dataItems = await response;
+      console.log("results:" + dataItems)
       return dataItems;
     } catch (error) {
       console.error("Error fetching paged documents:", error);
