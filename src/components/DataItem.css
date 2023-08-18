@@ -1,0 +1,12 @@
+.data-item {
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    padding: 0px;
+    border-radius: 0px;
+    box-shadow: 0px rgba(0, 0, 0, 0.2); /* Adding a subtle shadow for depth */
+    margin: 0px;
+    transition: background-color 0.3s; /* Adding a smooth transition effect */
+  }
+  
+  .data-item:hover {
+    background-color: rgba(255, 255, 255, 1); /* Full opacity on hover */
+  }

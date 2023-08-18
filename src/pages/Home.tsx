@@ -82,6 +82,7 @@ export function Home() {
   console.log("selectedDoc:", selectedDoc);
 
   return (
+    <div  className="home-conatiner"> {/* Apply the CSS class to the container */}
     <>
       {/* Conditionally render the title "Selected Doc" */}
       {selectedDoc && <h1>Selected Doc</h1>}
@@ -89,7 +90,9 @@ export function Home() {
         // Display the selected document and its connected docs
         <Row>
           <Col>
+            <div className="data-item"> 
             <DataItem {...selectedDoc.doc} />
+            </div> 
             {selectedDoc.connectedDocs && selectedDoc.connectedDocs.length > 0 ? (
               <>
                 <h1>Connected Docs</h1>
@@ -114,11 +117,13 @@ export function Home() {
             {context.queryData &&
               context.queryData.map((item: any) => (
                 <Col key={item.doc._key}>
+                  <div className="data-item"> 
                   <DataItem
                     {...item.doc}
                     key={item.doc._key}
                     onSelect={() => handleSelect(item)} // Pass the entire doc as selected
                   />
+                  </div>
                 </Col>
               ))}
           </Row>
@@ -171,5 +176,6 @@ export function Home() {
         </>
       )}
     </>
+    </div>
   );
 }
