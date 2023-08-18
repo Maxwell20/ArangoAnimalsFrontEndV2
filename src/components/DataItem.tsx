@@ -4,6 +4,7 @@ import { formatTime } from "../utilities/formatTime";
 import { makeQueryByKey } from "../hooks/useQuery"; // Import the makeQueryByKey function
 import { getQueryData } from "../context/QueryContext";
 import React from "react";
+import "./DataItem.css"
 
 type dataItemProps = {
   _key: string;
@@ -49,7 +50,7 @@ export function DataItem({
 
 
   return (
-    <Card className="h-100">
+    <Card className="data-item" >
       <Card.Body className="d-flex flex-column">
         <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
           <span className="fs-5">{species}</span>

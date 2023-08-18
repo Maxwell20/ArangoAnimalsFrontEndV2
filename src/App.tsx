@@ -6,7 +6,7 @@ import { NavProvider } from "./context/NavContext";
 import { Home } from "./pages/Home";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom"; // Import BrowserRouter
-
+import "./App.css"
 
 function App() {
   const initial = [
@@ -35,16 +35,18 @@ function App() {
   
   
   return (
+    <div className="home-container">
     <Router> {/* Wrap the entire app with the Router */}
-      <QueryProvider>
-        <NavProvider>
+      <QueryProvider >
+        <NavProvider  >
           <Navbar />
         </NavProvider>
-        <Container className="mb-4">
+        <Container >
           <Home />
         </Container>
       </QueryProvider>
     </Router>
+    </div>
   );
 }
 export default App;
