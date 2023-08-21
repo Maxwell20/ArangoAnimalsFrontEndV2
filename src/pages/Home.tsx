@@ -40,15 +40,14 @@ export function Home() {
   const fetchData = async () => {
     try {
       if (context.queryParameters !== undefined) {
+        context.setQueryData([]); // Clear previous data
         if (context.initialRender === 0) {
           await context.performInitialQuery(pageNum);
-          // context.setQueryData(data);
-          setSelectedDoc(null);
           // context.setInitialRender(1);
         } else {
           await context.performFullQuery(pageNum);
           // context.setQueryData(data);
-          setSelectedDoc(null);
+          // setSelectedDoc(null);
         }
       }
     } catch (error) {
@@ -61,7 +60,9 @@ export function Home() {
   useEffect(() => {
     fetchData();
   }, [pageNum, context.dataForQuery, context.initialRender]);
-
+  useEffect(() => {
+    console.log(context.queryData)
+  }, [context.queryData]);
 
   const handleSelect = async (doc: any) => {
     console.log("Selected:", doc);
