@@ -112,20 +112,6 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
   }, [dataForQuery]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (initialRender === 2) {
-        setGoodData(2);
-        console.log("making query")
-        //console.log(await makeFull(dataForQuery))
-        const data = await context.performFullQuery(dataForQuery); // Using makeFullQuery from context        console.log(queryData)
-        setQueryData(data);
-        alert('pause')
-      }
-    };
-    fetchData();    
-  }, [goodData]);
-
-  useEffect(() => {
     setDataForQuery((prevData) => ({
       ...prevData,
       pageNumber: pageNumber, // Update the pageNumber property

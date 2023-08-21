@@ -10,8 +10,8 @@ interface QueryFunctions {
 }
 
 type QueryData = {
-  queryData: any[] | undefined;
-  setQueryData: React.Dispatch<React.SetStateAction<any[] | undefined>> ;
+  queryData: any[] | null | undefined;
+  setQueryData: React.Dispatch<React.SetStateAction<any[] | null | undefined>> ;
   initialRender: number | undefined;
   setInitialRender: React.Dispatch<React.SetStateAction<number>>;
   dataForQuery: makeQueryProps;
@@ -42,7 +42,7 @@ const defaultQueryProps: makeQueryProps = {
 };
 
 export function QueryProvider({ children }: QueryProviderProps) {
-  const [queryData, setQueryData] = useState<any[]>();
+  const [queryData, setQueryData] = useState<any[] | null>();
   const [initialRender, setInitialRender] = useState<number>(0);
   const [dataForQuery, setDataForQuery] = useState<makeQueryProps>(defaultQueryProps);
   const [queryParameters, setQueryParameters] = useState<makeQueryProps>(defaultQueryProps);
@@ -55,14 +55,15 @@ export function QueryProvider({ children }: QueryProviderProps) {
   const performInitialQuery = async (_pageNum: number) => {
     const test = dataForQuery;
     const data = await makeInitial(_pageNum);
-    setQueryData(data);
+    await setQueryData(data);
   };
 
   const performFullQuery = async (_pageNum: number) => {
     try {
       dataForQuery.pageNumber = _pageNum;
       const data = await makeFullQuery(dataForQuery);
-      setQueryData(data);
+      await setQueryData(data);
+      console.log(queryData)
     } catch (error) {
       console.error("Error performing full query:", error);
     }
