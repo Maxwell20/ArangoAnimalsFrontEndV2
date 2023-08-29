@@ -1,0 +1,9 @@
+Host address for api will be set via vite environment variable see : https://vitejs.dev/guide/env-and-mode.html
+
+Note: You must create custom environment variables beginning with VITE_. Environment variables are defined in the root directory of this project in the .env file.
+
+useage: 
+    console.log(import.meta.env.VITE_SOME_KEY) // 123
+
+to start the project:
+    npm run dev

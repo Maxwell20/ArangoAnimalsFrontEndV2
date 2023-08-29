@@ -48,7 +48,7 @@ export var badData = [
 export function makeInitialQuery(_pageNum: number) {
   const fetchData = async () => {
     try {
-      const client = new FastAPIClient("https://localhost:8080/rest");
+      const client = new FastAPIClient(import.meta.env.VITE_API_URL);
       const response = await client.getSearchAllDocumentsPaged(
         12,
         _pageNum,
@@ -99,7 +99,7 @@ export async function makeFullQuery({
   collectionFilter,
   }: makeQueryProps) {
     try {
-      const client = new FastAPIClient("https://localhost:8080/rest");
+      const client = new FastAPIClient(import.meta.env.VITE_API_URL);
       const response = await client.getDocumentsPaged(
         collections,
         pageSize,
@@ -136,7 +136,7 @@ export async function makeQueryByKey({
   }: makeQueryByKeyProps) {
     console.log("makeQueryByKey called!!!")
     try {
-      const client = new FastAPIClient("https://localhost:8080/rest");
+      const client = new FastAPIClient(import.meta.env.VITE_API_URL);
       const response = await client.getDocumentByKey(
         key,
         includeEdges
