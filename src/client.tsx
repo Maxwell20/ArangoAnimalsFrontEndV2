@@ -179,11 +179,3 @@ export class FastAPIClient {
     }
   }
 }
-
-
-
-// // usage example
-// const client = new FastAPIClient('https://example.com/api');
-// client.getSampleData().then((data) => {
-//   console.log(data);
-// });

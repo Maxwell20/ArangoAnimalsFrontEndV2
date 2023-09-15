@@ -69,7 +69,7 @@ export function Home() {
     fetchData();
   }, [pageNum, context.dataForQuery, context.initialRender]);
   useEffect(() => {
-    console.log(context.queryData)
+    //placeholder
   }, [context.queryData]);
 
   const handleSelect = async (doc: any) => {

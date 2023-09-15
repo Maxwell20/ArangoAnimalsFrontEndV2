@@ -71,13 +71,12 @@ export function QueryProvider({ children }: QueryProviderProps) {
   
     return result;
   };
-  
+
   const performFullQuery = async (_pageNum: number) => {
     try {
       dataForQuery.pageNumber = _pageNum;
       const data = await makeFullQuery(dataForQuery);
       await setQueryData(data);
-      console.log(queryData)
     } catch (error) {
       console.error("Error performing full query:", error);
     }

@@ -331,11 +331,7 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
       context.setDataForQuery(newData)
       context.setInitialRender(1);
 
-      console.log(newData);
-
       setDataForQuery(newData)
-      // onDataForQueryChange(newData);
-      console.log(newData)
     } else {
       const newData = {
         collections: collectionNameList,
@@ -355,11 +351,8 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
       } 
       context.setDataForQuery(newData)
       context.setInitialRender(1);
-      console.log(newData);
       
       setDataForQuery(newData);
-      // onDataForQueryChange(newData);
-      console.log(newData)
     } 
 
 

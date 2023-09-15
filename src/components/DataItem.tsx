@@ -36,7 +36,6 @@ export function DataItem({
   onSelect, // Receive the onSelect function from props
 }: dataItemProps) {
   const selectItem = async () => {
-    console.log("select called!!!");
     // Make the API call using makeQueryByKey
     try {
       // const response = await makeQueryByKey({ key: _key, includeEdges: true });

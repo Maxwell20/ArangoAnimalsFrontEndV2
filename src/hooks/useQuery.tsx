@@ -122,7 +122,6 @@ export async function makeFullQuery({
         collectionFilter,
       );
       const dataItems = await response;
-      console.log("results:" + dataItems)
       return dataItems;
     } catch (error) {
       console.error("Error fetching paged documents:", error);
@@ -134,7 +133,6 @@ export async function makeQueryByKey({
     key,
     includeEdges,
   }: makeQueryByKeyProps) {
-    console.log("makeQueryByKey called!!!")
     try {
       const client = new FastAPIClient(import.meta.env.VITE_API_URL);
       const response = await client.getDocumentByKey(
