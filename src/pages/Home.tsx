@@ -73,7 +73,6 @@ export function Home() {
   }, [context.queryData]);
 
   const handleSelect = async (doc: any) => {
-    console.log("Selected:", doc);
     try {
       if(doc.doc){
         const response = await makeQueryByKey({ key: doc.doc._key, includeEdges: true });
