@@ -7,14 +7,14 @@ const MAX_PAGES_DISPLAY = 3; // Adjust the number of pages to display
 
 export function Home() {
   const context = useQueryContext();
+  // Calculate the range of page numbers to display
+  // setStartPage(1)
   const [selectedDoc, setSelectedDoc] = useState<any>(null); // Explicitly set the type as 'any'
   const [pageNum, setPageNum] = useState(1);
-  const totalPages = 10; // Replace with the actual total number of pages****get from api
-  const maxPageNumbers = 3; // Number of page numbers to display at a time
-  // Calculate the range of page numbers to display
-  const startPage = Math.max(1, pageNum - Math.floor(maxPageNumbers / 2));
-  const endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
-
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [startPage, setStartPage] = useState<number>(Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2)));
+  const [endPage, setEndPage] = useState<number>(Math.min(totalPages, startPage + MAX_PAGES_DISPLAY - 1));
+  
   // Generate the page number links within the calculated range
   const pageLinks = [];
   for (let i = startPage; i <= endPage; i++) {
@@ -43,9 +43,17 @@ export function Home() {
         context.setQueryData([]); // Clear previous data
         if (context.initialRender === 0) {
           await context.performInitialQuery(pageNum);
+          let pgcount = await context.getCollectionCounts();
+          if (pgcount) {
+          let startPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
+          let endPage = Math.min(pgcount, startPage + MAX_PAGES_DISPLAY - 1);
+          let totalPages = (pgcount as unknown as number)
+          setEndPage(endPage)
+          setTotalPages(totalPages)
+          }
           // context.setInitialRender(1);
         } else {
-          await context.performFullQuery(pageNum);
+
           // context.setQueryData(data);
           // setSelectedDoc(null);
         }
@@ -142,8 +150,8 @@ export function Home() {
               {context.queryData && (
                 <>
                   {Array.from(
-                    { length: Math.min(maxPageNumbers, MAX_PAGES_DISPLAY) },
-                    (_, i) => pageNum - Math.floor(maxPageNumbers / 2) + i
+                    { length: Math.min(MAX_PAGES_DISPLAY) },
+                    (_, i) => pageNum - Math.floor(MAX_PAGES_DISPLAY / 2) + i
                   ).map((number) => (
                     // Check if the number is greater than 0 and less than or equal to totalPages
                     number > 0 && number <= totalPages && (

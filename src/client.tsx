@@ -19,6 +19,16 @@ export class FastAPIClient {
       throw error;
     }
   }
+  public async getColectionCountData(): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.get(`${this.baseURL}/get_collection_counts`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+
   public async getDocumentsPaged(
     collections: string,
     pageSize: number,

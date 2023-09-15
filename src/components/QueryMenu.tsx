@@ -55,7 +55,7 @@ type makeQueryProps = {
 };
 export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMenuProps) {
   const [dataForQuery, setDataForQuery] = useState<makeQueryProps>(badData);
-  const { queryData, setQueryData, initialRender } = useQueryContext();
+  // const { queryData, setQueryData, initialRender } = useQueryContext();
   const [goodData, setGoodData] = useState(2);
   const defaultCollection = [{ value: "all", label: "all" }];
   const { closeQuery } = useQuery();
@@ -90,7 +90,7 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
     const fetchData = async () => {
       try {
         //const client = new FastAPIClient("https://10.0.0.6");
-        const client = new FastAPIClient("https:localhost:8080/rest");
+        const client = new FastAPIClient(import.meta.env.VITE_API_URL);
         const names = await client.getColectionNameData();
         //const collectionNames = names[0].join(",");
         //const edgeCollectionNames = names[1].join(",");

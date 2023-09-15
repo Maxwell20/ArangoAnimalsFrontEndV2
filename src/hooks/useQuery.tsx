@@ -148,3 +148,14 @@ export async function makeQueryByKey({
       throw error; // Throw the error for the component to handle
     }
   }
+
+  export async function getCollectionsCount(){
+    try {
+      const client = new FastAPIClient(import.meta.env.VITE_API_URL);
+      const response = await client.getColectionCountData() 
+      return response
+    } catch (error) {
+      console.error("Error fetching documents count:", error);
+      throw error; // Throw the error for the component to handle
+    }
+  }

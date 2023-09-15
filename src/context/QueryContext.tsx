@@ -1,10 +1,11 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
-import { makeInitialQuery as makeInitial, makeFullQuery, makeQueryProps, makeQueryByKey } from "../hooks/useQuery";
+import { makeInitialQuery as makeInitial, makeFullQuery, makeQueryProps, makeQueryByKey, getCollectionsCount } from "../hooks/useQuery";
 
 // Define QueryFunctions interface
 interface QueryFunctions {
   performQueryByKey: (key: string, includeEdges: boolean) =>  Promise<void>; // Added includeEdges parameter
   performInitialQuery: (_pageNum: number) => Promise<void>;
+  getCollectionCounts: () => Promise<number>;
   performFullQuery: (_pageNum: number) => Promise<void>; // Corrected parameter list
   updateQueryParameters: (newParams: makeQueryProps) => void;
 }
@@ -46,6 +47,7 @@ export function QueryProvider({ children }: QueryProviderProps) {
   const [initialRender, setInitialRender] = useState<number>(0);
   const [dataForQuery, setDataForQuery] = useState<makeQueryProps>(defaultQueryProps);
   const [queryParameters, setQueryParameters] = useState<makeQueryProps>(defaultQueryProps);
+  const [pageCount, setPageCount] = useState<number>(1);
 
   const performQueryByKey = async (key: string, includeEdges: boolean) => {
     const data = await makeQueryByKey({key, includeEdges}); // Corrected function call
@@ -53,11 +55,23 @@ export function QueryProvider({ children }: QueryProviderProps) {
   };
 
   const performInitialQuery = async (_pageNum: number) => {
-    const test = dataForQuery;
     const data = await makeInitial(_pageNum);
     await setQueryData(data);
   };
 
+  const getCollectionCounts = async () => {
+    let result = 0;
+    let arr = await getCollectionsCount();
+  
+    for (const collectionName in arr) {
+      if (arr.hasOwnProperty(collectionName)) {
+        result += arr[collectionName];
+      }
+    }
+  
+    return result;
+  };
+  
   const performFullQuery = async (_pageNum: number) => {
     try {
       dataForQuery.pageNumber = _pageNum;
@@ -76,8 +90,9 @@ export function QueryProvider({ children }: QueryProviderProps) {
   const queryFunctions: QueryFunctions = {
     performQueryByKey,
     performInitialQuery,
-    performFullQuery, 
+    performFullQuery,
     updateQueryParameters,
+    getCollectionCounts
   };
 
   const contextFunctions: QueryFunctions = {
