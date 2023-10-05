@@ -76,7 +76,7 @@ export function QueryProvider({ children }: QueryProviderProps) {
     try {
       dataForQuery.pageNumber = _pageNum;
       const data = await makeFullQuery(dataForQuery);
-      await setQueryData(data);
+      await setQueryData(data[0]);
     } catch (error) {
       console.error("Error performing full query:", error);
     }

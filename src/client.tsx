@@ -48,7 +48,8 @@ export class FastAPIClient {
     includeEdges: boolean | null = false,
     edgeCollections: string | null = "",
     excludeEdges: boolean | null = false,
-    collectionFilter: string | null = ""
+    collectionFilter: string | null = "",
+    includePageCount: boolean | null = true
   ): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(`${this.baseURL}/get_documents_paged`, {
@@ -71,7 +72,8 @@ export class FastAPIClient {
           includeEdges,
           edgeCollections,
           excludeEdges,
-          collectionFilter
+          collectionFilter,
+          includePageCount
         },
         headers: {
           Accept: 'application/json', // Specify JSON response
@@ -97,7 +99,8 @@ export class FastAPIClient {
           includeEdges,
           edgeCollections,
           excludeEdges,
-          collectionFilter
+          collectionFilter,
+          includePageCount
         },
         headers: {
           Accept: 'application/json', // Specify JSON response
