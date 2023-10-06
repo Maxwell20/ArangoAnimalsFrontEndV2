@@ -47,9 +47,9 @@ export function Home() {
           if (pgcount) {
             let startPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
             let endPage = Math.min(pgcount, startPage + MAX_PAGES_DISPLAY - 1);
-            let totalPages = (pgcount as unknown as number)
+            let tPages = (pgcount as unknown as number)
             setEndPage(endPage)
-            setTotalPages(totalPages)
+            setTotalPages(tPages)
           }
           // context.setInitialRender(1);
         } else {
@@ -58,13 +58,10 @@ export function Home() {
           if (pgcount) {
             let startPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
             let endPage = Math.min(pgcount, startPage + MAX_PAGES_DISPLAY - 1);
-            let totalPages = (pgcount as unknown as number)
+            let tPages = (pgcount as unknown as number)
             setEndPage(endPage)
-            setTotalPages(totalPages)
+            setTotalPages(tPages)
           }
-
-          // context.setQueryData(data);
-          // setSelectedDoc(null);
         }
       }
     } catch (error) {
