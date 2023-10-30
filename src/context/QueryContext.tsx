@@ -8,6 +8,7 @@ interface QueryFunctions {
   getCollectionCounts: () => Promise<number>;
   performFullQuery: (_pageNum: number) => Promise<void>; // Corrected parameter list
   updateQueryParameters: (newParams: makeQueryProps) => void;
+  returnPageCount: () => number;
 }
 
 type QueryData = {
@@ -74,12 +75,19 @@ export function QueryProvider({ children }: QueryProviderProps) {
 
   const performFullQuery = async (_pageNum: number) => {
     try {
-      dataForQuery.pageNumber = _pageNum;
+      if(!Number.isNaN(dataForQuery.pageNumber)){
+        dataForQuery.pageNumber = _pageNum;
+      }
       const data = await makeFullQuery(dataForQuery);
-      await setQueryData(data);
+      await setQueryData(data[0]);
+      await setPageCount(data[1]);
     } catch (error) {
       console.error("Error performing full query:", error);
     }
+  };
+
+  const returnPageCount = () => {
+    return pageCount;
   };
 
   const updateQueryParameters = (newParams: makeQueryProps) => {
@@ -91,7 +99,8 @@ export function QueryProvider({ children }: QueryProviderProps) {
     performInitialQuery,
     performFullQuery,
     updateQueryParameters,
-    getCollectionCounts
+    getCollectionCounts,
+    returnPageCount
   };
 
   const contextFunctions: QueryFunctions = {

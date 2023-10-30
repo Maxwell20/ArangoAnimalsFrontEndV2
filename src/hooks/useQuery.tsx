@@ -64,7 +64,8 @@ export function makeInitialQuery(_pageNum: number) {
         null,
         null,
         null,
-        null
+        null,
+        true
       );
       const dataItems = await response; // Parse the response JSON
       return dataItems; // Return the parsed data
@@ -119,7 +120,7 @@ export async function makeFullQuery({
         includeEdges,
         edgeCollection,
         excludeEdges,
-        collectionFilter,
+        collectionFilter
       );
       const dataItems = await response;
       return dataItems;

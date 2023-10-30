@@ -134,7 +134,7 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
 
   // all error handling done here - sanitization and validation
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (parseFloat(latStart) != 0) {
@@ -405,7 +405,36 @@ export function QueryMenu({ isOpen, pageNumber, onDataForQueryChange }: QueryMen
         "The chosen attribute 2 end was : " +
         att2End
     );
-
+    context.dataForQuery.collections = collectionNameList
+    context.dataForQuery.type = speciesLocal
+    context.dataForQuery.country = country
+    context.dataForQuery.startTime = formattedStartTime
+    context.dataForQuery.endTime = formattedEndTime
+    if(Number.isNaN(latStart)){
+      context.dataForQuery.latStart = Number(latStart)
+    }
+    if(Number.isNaN(latEnd)){
+      context.dataForQuery.latEnd = Number(latEnd)
+    }
+    if(Number.isNaN(longStart)){
+      context.dataForQuery.longStart = Number(longStart)
+    }
+    if(Number.isNaN(longEnd)){
+      context.dataForQuery.longEnd = Number(longEnd)
+    }
+    if(Number.isNaN(att1Start)){
+      context.dataForQuery.attribute1Start = Number(att1Start)
+    }
+    if(Number.isNaN(att1End)){
+      context.dataForQuery.attribute1End = Number(att1End)
+    }
+    if(Number.isNaN(att2Start)){
+      context.dataForQuery.attribute2Start = Number(att2Start)
+    }
+    if(Number.isNaN(att2End)){
+      context.dataForQuery.attribute2End =Number(att2End)
+    }
+    await context.performFullQuery(1)
     closeQuery;
   }
 

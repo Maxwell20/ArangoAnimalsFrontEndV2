@@ -45,17 +45,25 @@ export function Home() {
           await context.performInitialQuery(pageNum);
           let pgcount = await context.getCollectionCounts();
           if (pgcount) {
-          let startPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
-          let endPage = Math.min(pgcount, startPage + MAX_PAGES_DISPLAY - 1);
-          let totalPages = (pgcount as unknown as number)
-          setEndPage(endPage)
-          setTotalPages(totalPages)
+            let startPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
+            let endPage = Math.min(pgcount, startPage + MAX_PAGES_DISPLAY - 1);
+            let tPages = (pgcount as unknown as number)
+            setEndPage(endPage)
+            setTotalPages(tPages)
           }
           // context.setInitialRender(1);
         } else {
-
-          // context.setQueryData(data);
-          // setSelectedDoc(null);
+          await context.performFullQuery(pageNum)
+          let pgcount = await context.getCollectionCounts();
+          if (pgcount) {
+            let sPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
+            let ePage = Math.min(pgcount, sPage + MAX_PAGES_DISPLAY - 1);
+            let tPages = (pgcount as unknown as number)
+            let test = context.returnPageCount()
+            setStartPage(sPage)
+            setEndPage(ePage)   
+            setTotalPages(test)
+          }
         }
       }
     } catch (error) {
