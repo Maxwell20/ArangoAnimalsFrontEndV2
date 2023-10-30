@@ -56,11 +56,13 @@ export function Home() {
           await context.performFullQuery(pageNum)
           let pgcount = await context.getCollectionCounts();
           if (pgcount) {
-            let startPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
-            let endPage = Math.min(pgcount, startPage + MAX_PAGES_DISPLAY - 1);
+            let sPage = Math.max(1, pageNum - Math.floor(MAX_PAGES_DISPLAY / 2));
+            let ePage = Math.min(pgcount, sPage + MAX_PAGES_DISPLAY - 1);
             let tPages = (pgcount as unknown as number)
-            setEndPage(endPage)
-            setTotalPages(tPages)
+            let test = context.returnPageCount()
+            setStartPage(sPage)
+            setEndPage(ePage)   
+            setTotalPages(test)
           }
         }
       }
